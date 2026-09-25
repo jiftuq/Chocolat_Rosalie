@@ -167,7 +167,7 @@ COLLATE = utf8mb4_0900_ai_ci;
 CREATE TABLE IF NOT EXISTS `maison_rosalie`.`ratings` (
   `user_id` INT UNSIGNED NOT NULL,
   `recipe_id` INT UNSIGNED NOT NULL,
-  `rating` INT UNSIGNED NOT NULL,
+  `rating` TINYINT UNSIGNED NOT NULL,
   `rated_at` TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`user_id`, `recipe_id`),
   INDEX `idx_ratings_recipe` (`recipe_id` ASC) VISIBLE,
@@ -218,7 +218,6 @@ CREATE TABLE IF NOT EXISTS `maison_rosalie`.`recipe_ingredients` (
   `quantity` DECIMAL(10,3) NULL DEFAULT NULL,
   `unit` VARCHAR(40) NULL DEFAULT NULL,
   PRIMARY KEY (`recipe_id`, `ingredient_id`),
-  UNIQUE INDEX `uq_recipe_ingredients_order` (`recipe_id` ASC) VISIBLE,
   INDEX `idx_recipe_ingredients_ingredient` (`ingredient_id` ASC) VISIBLE,
   CONSTRAINT `fk_recipe_ingredients_ingredient`
     FOREIGN KEY (`ingredient_id`)
