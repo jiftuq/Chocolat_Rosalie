@@ -25,6 +25,6 @@ try {
     if (ob_get_level() > 0) {
         ob_end_clean();
     }
-    $showDetail = APP_DEBUG || $e instanceof ConfigurationException;
-    $controller->unavailable($showDetail ? $e->getMessage() : null);
+    $showDetail = SHOW_ERROR_DETAILS || $e instanceof ConfigurationException;
+    $controller->unavailable($showDetail ? $e::class . ' : ' . $e->getMessage() . ' — ' . basename($e->getFile()) . ':' . $e->getLine() : null);
 }

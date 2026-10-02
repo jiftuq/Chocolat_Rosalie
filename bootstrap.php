@@ -13,6 +13,10 @@ if (!defined('APP_DEBUG')) {
     define('APP_DEBUG', false);
 }
 
+// Détail des erreurs : en mode debug, ou quand le site est consulté depuis
+// la machine du développeur (MAMP, php -S). Jamais pour un visiteur distant.
+define('SHOW_ERROR_DETAILS', APP_DEBUG || in_array($_SERVER['REMOTE_ADDR'] ?? '', ['127.0.0.1', '::1'], true));
+
 // Le visiteur ne voit jamais d'erreur technique (SEC-10) : tout part dans logs/
 ini_set('display_errors', APP_DEBUG ? '1' : '0');
 ini_set('log_errors', '1');

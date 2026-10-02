@@ -64,6 +64,6 @@ try {
     // aucun détail technique pour le visiteur (BE-13, SEC-10)
     Logger::error($e);
     // en développement (APP_DEBUG), on montre la cause pour faciliter le diagnostic
-    $detail = APP_DEBUG ? ' [' . $e::class . ' : ' . $e->getMessage() . ']' : '';
+    $detail = SHOW_ERROR_DETAILS ? ' [' . $e::class . ' : ' . $e->getMessage() . ' — ' . basename($e->getFile()) . ':' . $e->getLine() . ']' : '';
     JsonResponse::error('Le service est momentanément indisponible. Merci de réessayer dans quelques instants.' . $detail, 503);
 }
