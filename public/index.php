@@ -24,5 +24,5 @@ try {
     if (ob_get_level() > 0) {
         ob_end_clean();
     }
-    $controller->unavailable();
+    $controller->unavailable(APP_DEBUG ? $e::class . ' : ' . $e->getMessage() : null);
 }

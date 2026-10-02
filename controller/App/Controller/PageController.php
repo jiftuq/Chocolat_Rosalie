@@ -88,14 +88,16 @@ class PageController extends AbstractController
         ], 404);
     }
 
-    public function unavailable(): void
+    /** @param ?string $debugDetail cause technique, affichée seulement si APP_DEBUG est activé */
+    public function unavailable(?string $debugDetail = null): void
     {
         $this->render('error', [
             'page' => '',
             'title' => 'Service indisponible — Maison Rosalie',
             'description' => 'Le site est momentanément indisponible.',
             'errorTitle' => 'Petit contretemps en cuisine',
-            'errorMessage' => 'Nos recettes sont momentanément indisponibles. Merci de réessayer dans quelques instants.',
+            'errorMessage' => 'Nos recettes sont momentanément indisponibles. Merci de réessayer dans quelques instants.'
+                . ($debugDetail === null ? '' : ' [' . $debugDetail . ']'),
         ], 503);
     }
 }

@@ -60,5 +60,7 @@ try {
 } catch (Throwable $e) {
     // aucun détail technique pour le visiteur (BE-13, SEC-10)
     Logger::error($e);
-    JsonResponse::error('Le service est momentanément indisponible. Merci de réessayer dans quelques instants.', 503);
+    // en développement (APP_DEBUG), on montre la cause pour faciliter le diagnostic
+    $detail = APP_DEBUG ? ' [' . $e::class . ' : ' . $e->getMessage() . ']' : '';
+    JsonResponse::error('Le service est momentanément indisponible. Merci de réessayer dans quelques instants.' . $detail, 503);
 }

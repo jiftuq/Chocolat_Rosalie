@@ -37,6 +37,8 @@ Prérequis : PHP 8.2 ou plus récent avec l'extension `pdo_mysql`, et MySQL ou M
    php -S localhost:8000 -t public
    ```
    puis ouvrir <http://localhost:8000>. Avec XAMPP/WAMP, faire pointer le site (DocumentRoot) sur le dossier `public/` : seul ce dossier doit être accessible depuis le web.
+   **Avec MAMP** : importer `data/maison_rosalie.sql` depuis phpMyAdmin, puis dans `config.php` utiliser `DB_HOST = '127.0.0.1'` (pas `localhost`), `DB_PORT = 8889` (port MySQL de MAMP sur Mac, voir Préférences → Ports), `DB_USER = 'root'`, `DB_PASSWORD = 'root'`. Le site est alors à l'adresse `http://localhost:8888/<dossier>/public/`.
+   En cas de message « momentanément indisponible », passer `APP_DEBUG` à `true` : la cause s'affiche dans le message ; elle est aussi toujours écrite dans `logs/app.log`.
 5. **Vérifier** (facultatif) : `php tests/api-test.php http://localhost:8000` rejoue 48 tests de l'API.
 
 ## Comptes de test
