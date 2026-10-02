@@ -11,6 +11,7 @@ use App\Controller\Api\RecipeController;
 use App\Core\JsonResponse;
 use App\Core\Logger;
 use App\Core\Session;
+use App\Exception\ConfigurationException;
 use App\Exception\ForbiddenException;
 use App\Exception\HttpException;
 use App\Exception\NotFoundException;
@@ -57,6 +58,8 @@ try {
     JsonResponse::error($e->getMessage(), $e->getStatus(), $e->getErrors());
 } catch (HttpException $e) {
     JsonResponse::error($e->getMessage(), $e->getStatus());
+} catch (ConfigurationException $e) {
+    JsonResponse::error($e->getMessage(), 503);
 } catch (Throwable $e) {
     // aucun détail technique pour le visiteur (BE-13, SEC-10)
     Logger::error($e);

@@ -3,7 +3,7 @@
 namespace App\Core;
 
 use PDO;
-use RuntimeException;
+use App\Exception\ConfigurationException;
 
 /**
  * Point unique de connexion à la base (QC-03).
@@ -17,7 +17,7 @@ final class Database
     {
         if (self::$pdo === null) {
             if (!defined('DB_HOST')) {
-                throw new RuntimeException('config.php introuvable : copier config.example.php en config.php.');
+                throw new ConfigurationException('Installation incomplète : le fichier config.php est introuvable à la racine du projet (à côté de config.example.php).');
             }
             $dsn = sprintf('mysql:host=%s;port=%d;dbname=%s;charset=utf8mb4', DB_HOST, DB_PORT, DB_NAME);
             self::$pdo = new PDO($dsn, DB_USER, DB_PASSWORD, [

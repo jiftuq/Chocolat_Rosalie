@@ -5,6 +5,7 @@ require_once dirname(__DIR__) . '/bootstrap.php';
 
 use App\Controller\PageController;
 use App\Core\Logger;
+use App\Exception\ConfigurationException;
 
 $controller = new PageController();
 $page = is_string($_GET['page'] ?? null) ? $_GET['page'] : 'accueil';
@@ -24,5 +25,6 @@ try {
     if (ob_get_level() > 0) {
         ob_end_clean();
     }
-    $controller->unavailable(APP_DEBUG ? $e::class . ' : ' . $e->getMessage() : null);
+    $showDetail = APP_DEBUG || $e instanceof ConfigurationException;
+    $controller->unavailable($showDetail ? $e->getMessage() : null);
 }
