@@ -1,43 +1,28 @@
 <?php
-declare(strict_types=1);
+// Contrôleur frontal des pages HTML : index.php?page=...
 
-// Contrôleur frontal : toutes les pages passent par index.php?page=...
+require_once dirname(__DIR__) . '/bootstrap.php';
 
-define('ROOT', dirname(__DIR__));
+use App\Controller\PageController;
+use App\Core\Logger;
 
-require ROOT . '/controller/publicController.php';
-require ROOT . '/controller/userController.php';
+$controller = new PageController();
+$page = is_string($_GET['page'] ?? null) ? $_GET['page'] : 'accueil';
 
-$page = $_GET['page'] ?? 'accueil';
-
-switch ($page) {
-    case 'accueil':
-        homePage();
-        break;
-    case 'recettes':
-        recipesPage();
-        break;
-    case 'recette':
-        recipeDetailPage((string) ($_GET['slug'] ?? ''));
-        break;
-    case 'eshop':
-        shopPage();
-        break;
-    case 'a-propos':
-        aboutPage();
-        break;
-    case 'contact':
-        contactPage();
-        break;
-    case 'connexion':
-        loginPage();
-        break;
-    case 'inscription':
-        registerPage();
-        break;
-    case 'favoris':
-        favoritesPage();
-        break;
-    default:
-        notFoundPage();
+try {
+    match ($page) {
+        'accueil' => $controller->home(),
+        'recettes' => $controller->recipes(),
+        'recette' => $controller->recipe(is_string($_GET['slug'] ?? null) ? $_GET['slug'] : ''),
+        'a-propos' => $controller->about(),
+        'contact' => $controller->contact(),
+        default => $controller->notFound(),
+    };
+} catch (Throwable $e) {
+    // base coupée ou toute autre panne : message propre, détails dans logs/ (SEC-10)
+    Logger::error($e);
+    if (ob_get_level() > 0) {
+        ob_end_clean();
+    }
+    $controller->unavailable();
 }

@@ -1,1 +1,4 @@
 config.php
+logs/*
+!logs/.gitkeep
+.DS_Store
